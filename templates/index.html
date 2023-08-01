@@ -1,0 +1,100 @@
+
+{% include "header.html" %}
+
+<main>
+
+
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for cafe in cafes: %}
+        <div class="col">
+          <div class="card shadow-sm">
+                <img src="{{cafe.img_url}}" class="my-card-img-top" alt="Cafe Image">
+            <div class="card-body card-header">
+                <h5 class="card-title">{{cafe.name}}</h5>
+                <p class="card-text">{{cafe.location}}</p>
+            </div>
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group" >
+                    <a href="{{url_for('view_cafe',cafe_id=cafe.id)}}">
+                        <button  type="button" class="btn btn-lg btn-outline-dark text-nowrap w-100">More</button>
+                    </a>
+                </div>
+
+                <div class="btn-group" >
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                        <button  type="button" class="btn btn-lg btn-outline-dark text-nowrap w-100">Map</button>
+                    </a>
+                </div>
+
+                {% if cur_user.is_authenticated%}
+                  {% if cafe in cur_user.liked_cafes %}
+                    <input type="checkbox" class="btn-check" id={{cafe.id}} checked>
+                  <label class="btn btn-outline-danger" for={{cafe.id}} onclick="toggleState('{{cafe.id}}')" >
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+      <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+    </svg>
+                  </label>
+                  {% endif %}
+                  {% if cafe not in cur_user.liked_cafes %}
+                    <input type="checkbox" class="btn-check" id={{cafe.id}}>
+                  <label class="btn btn-outline-danger" for={{cafe.id}} onclick="toggleState('{{cafe.id}}')" >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+      <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+    </svg>
+                  </label>
+                  {% endif %}
+                {% endif %}
+
+              </div>
+                <br/>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Location</div>
+                <span>{{cafe.location}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Name</div>
+                <span>{{cafe.name}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Wifi</div>
+                <span>{{cafe.has_wifi}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Takes Calls</div>
+                <span>{{cafe.can_take_calls}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Seats</div>
+                <span>{{cafe.seats}}</span></li>
+                <li class="list-group-item d-flex justify-content-between">
+
+
+                </li>
+              </ul>
+
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/styles.js')}}"></script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include 'header.html' %}
+
+
+<div class="col-12 col-lg-9 mx-auto my-5 pb-3 rounded shadow-lg p-5">
+    <img src="{{cafe.img_url}}" class="my-card-img-top" alt="...">
+    <div class="w-100 rounded cursive">
+
+        <h1 class="fs-1">{{cafe.name}}</h1>
+        <p class="fs-2">{{cafe.location}}</p>
+    </div>
+
+<main class="d-flex flex-row align-items-center cafe-info p-5">
+
+                <div class="me-4">
+
+                    <a href="https://g.page/CopelandSocial?share" target="_blank">
+                        <button type="button" class="btn btn-lg btn-outline-dark">View on Map</button>
+                    </a>
+
+                </div>
+               <ul class="list-group list-group-flush table m-3">
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Location</div>
+                <span>{{cafe.location}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Name</div>
+                <span>{{cafe.name}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Wifi</div>
+                <span>{{cafe.has_wifi}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Takes Calls</div>
+                <span>{{cafe.can_take_calls}}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                  <div>Seats</div>
+                <span>{{cafe.seats}}</span></li>
+                <li class="list-group-item d-flex justify-content-between">
+
+
+                </li>
+              </ul>
+
+</main>
+<div class="container px-5">
+{% if cur_user.is_authenticated %}
+<form method="post" action="{{url_for('view_cafe', cafe_id=cafe.id)}}">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        {{ form.csrf_token }}
+            <div class="d-flex">
+  <div class="p-2 w-100">{{form.content}}</div>
+  <div class="p-2 flex-shrink-1">{{form.send}}</div>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+</form>
+
+{% else %}
+<p>You have log in or register first.</p>
+{% endif %}
+
+    {% for comment in cafe.comments | sort(attribute='date') | reverse %}
+
+    <div class="comment position-relative card mb-3">
+        <div class="d-flex flex-row g-0">
+
+            <div class="col-9 col-md-10">
+
+                <div class="card-body">
+                {% if comment in cur_user.comments %}
+                {% endif %}
+                    <h5 class="card-title">
+                        {{comment.user_comments.user_name}}
+                        <small class="text-muted elapsed-time">{{time_ago(comment.date)}}</small>
+
+                    </h5>
+
+                    <p class="card-text">
+                        {{comment.content}}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    {% endfor %}
+</div>
+</div>
+
+
+
+
+
