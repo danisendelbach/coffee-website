@@ -127,8 +127,8 @@ def login():
     if request.method == "POST" and form.validate_on_submit():
         user = User.query.filter_by(email=request.form.get("email")).first()
         user_input_password = request.form.get("password")
-
-        if bcrypt.hashpw(user_input_password, user.password) == user.password \
+        print(str(user.password))
+        if bcrypt.hashpw(user_input_password.encode('utf-8'), user.password) == user.password \
                 and user is not None:
             login_user(user)
             return redirect(url_for('home'))
