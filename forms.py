@@ -15,5 +15,7 @@ class LoginForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    content = TextAreaField(render_kw={"placeholder": "Type in your text."})
-    send = SubmitField("Send")
+    content = TextAreaField(render_kw={"placeholder": "Type in your text.",
+                                       "class": "form-control"
+                                       })
+    send = SubmitField("Send", render_kw={"class": "btn btn-primary mb-3"})
