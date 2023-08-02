@@ -107,6 +107,16 @@ def view_cafe(cafe_id):
     return render_template("cafe.html", form=form, cur_user=current_user, cafe=cafe,
                            comments=comments, time_ago=time_ago)
 
+@app.route("/delete-comment/<comment_id>")
+def delete_comment(comment_id):
+
+    comment_to_delete = Comment.query.filter_by(id=comment_id).first()
+    cafe_id = comment_to_delete.cafe
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+    return redirect(url_for('view_cafe', cafe_id=cafe_id))
+
+
 @app.route("/search", methods=["POST"])
 def search():
     query=request.form.get("search")

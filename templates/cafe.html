@@ -66,7 +66,7 @@
 </form>
 
 {% else %}
-<p>You have log in or register first.</p>
+<p>You have log in or register first to comment.</p>
 {% endif %}
 
     {% for comment in cafe.comments | sort(attribute='date') | reverse %}
@@ -78,6 +78,11 @@
 
                 <div class="card-body">
                 {% if comment in cur_user.comments %}
+                    <a href="{{url_for('delete_comment', comment_id=comment.id)}}">
+                        <button class="trash-btn btn-delete position-absolute" style="top: 0; right: 0;">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </a>
                 {% endif %}
                     <h5 class="card-title">
                         {{comment.user_comments.user_name}}
